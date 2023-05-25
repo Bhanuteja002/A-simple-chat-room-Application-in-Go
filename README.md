@@ -1,36 +1,44 @@
-# A simple network simulation
+# A simple chat room Application in Go
 
-This project simulates a distributed system using TCP/IP for communication between processes. Each process can send and receive messages to/from other processes with a specified delay.
+This a simple chat room application that supports only private message. It is a simple but alsoeffective demonstration of networking and concurrency in Go. The application consists of two main parts - a server and a client.
 
-## Structure
+## Design
 
-The project consists of a single Go file that contains all the necessary functions to simulate a simple network system. The system configuration is read from a text file.
+The application is designed with two main components:
 
-## Configuration
+1. **Server**: Handles incoming connections from clients, routes messages between clients.
 
-The system configuration is specified in a text file named `config.txt`. The first line of this file specifies the minimum and maximum delay for sending messages (in milliseconds). Each subsequent line represents a process in the system, with the format: `ID IP Port`.
+2. **Client**: Connects to the server, sends messages to other users through the server, and receives messages from other users.
 
-Here's an example configuration:
+Each client runs in its own process. The server can handle multiple concurrent connections from clients and processes each client in its own goroutine.
 
-```
-100 200
-1 127.0.0.1 8001
-2 127.0.0.1 8002
-3 127.0.0.1 8003
-4 127.0.0.1 8004
-```
+## Data Flow
 
-This configuration specifies a system with 4 processes. The minimum delay for sending messages is 100 milliseconds, and the maximum delay is 200 milliseconds. The processes have IDs 1 through 4, and they all run on the local machine (127.0.0.1), with ports 8001 through 8004.
+1. **Client**:
 
-## Usage
+   - Asks for the server's host address, port number, and a username.
+   - Tries to connect to the server.
+   - On successful connection, starts a goroutine to listen for incoming messages.
+   - Sends user input to the server in the format 'To:Message'. User input is read from the command line.
 
-To run the simulation, simply execute the Go file:
+2. **Server**:
+   - Accepts incoming connections from clients and spawns a goroutine for each.
+   - Each goroutine listens for incoming messages from its client.
+   - When a message is received, it's routed to the intended recipient, if they're connected. Otherwise, the sender is notified that the user is not found.
 
-```bash
-go run mp1.go
+## Running the Application
 
-send [destinationID] [message]
+### Server
 
-send 2 Hello, world!
+1. Open a terminal window.
+2. Navigate to the directory containing the `server.go` file.
+3. Run the command `go run server.go`.
+4. Enter the desired port number for the server to listen on.
 
-```
+### Client
+
+1. Open a new terminal window (separate from the server).
+2. Navigate to the directory containing the `client.go` file.
+3. Run the command `go run client.go`.
+4. Enter the server's host address and port number, and a username for this client.
+5. Once connected, you can send messages in the format 'To:Message'.
