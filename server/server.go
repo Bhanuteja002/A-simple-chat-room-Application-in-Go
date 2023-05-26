@@ -10,7 +10,6 @@ import (
 	"sync"
 
 	"github.com/Bhanuteja002/A-simple-chat-room-Application-in-Go/message"
-	// update this to the actual path if necessary
 )
 
 // Client holds information about a connected client
@@ -42,12 +41,12 @@ func main() {
 				return
 			}
 
-			// New client connected, spawn a goroutine to handle communication
+			// New client connected, create a goroutine to handle communication
 			go handleClient(conn)
 		}
 	}()
 
-	// Server routine for handling user exit command
+	// handling user exit command
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		input := scanner.Text()

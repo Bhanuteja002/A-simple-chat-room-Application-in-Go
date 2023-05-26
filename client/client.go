@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Bhanuteja002/A-simple-chat-room-Application-in-Go/message" // update this to the actual path if necessary
+	"github.com/Bhanuteja002/A-simple-chat-room-Application-in-Go/message"
 )
 
 const maxRetries = 10
@@ -53,7 +53,7 @@ func main() {
 
 			fmt.Println("Connected! Enter message in the format 'To:Message'. Type 'EXIT' to quit.")
 
-			// Main routine for user input
+			// user input
 			scanner := bufio.NewScanner(os.Stdin)
 			for scanner.Scan() {
 				input := scanner.Text()
